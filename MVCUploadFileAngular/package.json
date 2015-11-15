@@ -1,0 +1,31 @@
+{
+  "name": "uploadfile",
+  "version": "1.0.0",
+  "description": "demo upload file with mvc and angularjs",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "webpack-dev-server --devtool eval --config config/webpack.config.js --progress --colors --content-base build/"
+  },
+  "keywords": [
+    "mvc",
+    "angularjs"
+  ],
+  "author": "Hoang Quoc Nhat TONG",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.4.7",
+    "babel-core": "^6.1.21",
+    "babel-loader": "^6.1.0",
+    "extract-text-webpack-plugin": "^0.9.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-util": "^3.0.7",
+    "ng-annotate-loader": "0.0.10",
+    "webpack": "^1.12.6"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "webpack-dev-server": "^1.12.1"
+  }
+}
