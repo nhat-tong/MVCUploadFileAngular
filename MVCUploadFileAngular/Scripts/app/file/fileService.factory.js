@@ -19,7 +19,9 @@
             function getFiles() {
                 return $http({
                     method: 'GET',
-                    url: ''
+                    url: '/api/Upload/GetFiles'
+                }).then(function (response) {
+                    return response.data;
                 });
             }
 
@@ -31,14 +33,17 @@
                     transformRequest: angular.identity,
                     headers: { 'Content-Type': undefined },
                     data: formData
+                }).then(function (response) {
+                    return response.data;
                 });
             }
 
             /* Supprimer un fichier existant */
-            function deleteFile(id) {
+            function deleteFile(fileName) {
                 return $http({
                     method: 'DELETE',
-                    url: ''
+                    url: '/api/Upload/DeleteFile',
+                    params: { fileName: fileName }
                 });
             }
         }

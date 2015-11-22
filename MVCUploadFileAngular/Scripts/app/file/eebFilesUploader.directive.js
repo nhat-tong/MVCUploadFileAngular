@@ -21,24 +21,55 @@
 
             return directive;
 
-            function linkFunc(scope, element, attrs, vm) {}
+            function linkFunc(scope, element, attrs, vm) { }
 
             function EebFilesUploaderCtrl() {
                 var vm = this;
 
-                vm.hasFiles = false;
+                vm.fileList = [];
                 vm.files = [];
+                vm.init = init;
                 vm.upload = upload;
+                vm.deleteFile = deleteFile;
+
+                function init() {
+                    FileManager.getFiles().then(function (data) {
+                        vm.fileList = data;
+                    });
+                }
 
                 function upload() {
-                    return FileManager.upload(vm.files).then(function (data) {
-                        if (data.status === 200) {
-                            toaster.success("title", "text");
-                        }
-                        else {
-                            toaster.error("title", "text");
-                        }
+                    vm.uploadPromise = FileManager.upload(vm.files);
+
+                    return vm.uploadPromise.then(function (files) {
+                        toaster.success("Your files have been uploaded.");
+
+                        angular.forEach(files, function (file, index) {
+                            vm.fileList.push(file);
+                        });
+
+                        addFileForm.reset();
+                        vm.hasFiles = false;
+                        vm.files = '';
+
+                    }, function (error) {
+                        toaster.error("Your files existed on the server. Upload aborted!!!");
                     });
+                }
+
+                function deleteFile(file) {
+                    return FileManager.deleteFile(file.name).then(function (response) {
+                        toaster.success("Files " + file.name + " has been deleted");
+                        // Remove file from list
+                        removeFromArray(vm.fileList, file);
+                    });
+                }
+
+                function removeFromArray(array, value) {
+                    var index = array.indexOf(value);
+                    if (index === -1) return;
+
+                    array.splice(index, 1);
                 }
             }
         }

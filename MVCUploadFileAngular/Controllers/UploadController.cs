@@ -1,56 +1,47 @@
 ﻿#region
+using MVCUploadFileAngular.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 #endregion
 
 namespace MVCUploadFileAngular.Controllers
 {
     public class UploadController : ApiController
     {
+        #region Properties
+        private FileManager _fileManager;
+        #endregion
+
+        #region Initialize
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            _fileManager = new FileManager(HttpContext.Current.Server.MapPath("~/App_Data"));
+            base.Initialize(controllerContext);
+        }
+        #endregion
+
         #region Post
         /// <summary>
-        /// Upload file
+        /// Post
         /// </summary>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> Post()
+        [HttpPost]
+        public HttpResponseMessage Post()
         {
-            var formDataCollection = new Dictionary<string, string>();
-
             // Check if the request contains multipart/form-data.
             if (!Request.Content.IsMimeMultipartContent())
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
 
-            // Path to save uploaded 
-            string savedFilePath = HttpContext.Current.Server.MapPath("~/App_Data");
-            var streamProvider = new MultipartFormCustomDataStreamProvider(savedFilePath);
-
             try
             {
-                var sb = new StringBuilder();
-
-                // Read the form data and return an async task
-                await Request.Content.ReadAsMultipartAsync(streamProvider);
-
-                // Get the form data
-                foreach (var key in streamProvider.FormData.AllKeys)
-                {
-                    foreach (var val in streamProvider.FormData.GetValues(key))
-                    {
-                        formDataCollection.Add(key, val);
-                    }
-                }
-
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, _fileManager.Add(Request));
             }
             catch (Exception ex)
             {
@@ -59,36 +50,34 @@ namespace MVCUploadFileAngular.Controllers
         }
         #endregion
 
-        #region Get
+        #region GetFiles
         /// <summary>
-        /// Upload file
+        /// Récupérer la liste des fichiers
         /// </summary>
         /// <returns></returns>
-        public HttpResponseMessage Get()
+        [HttpGet]
+        public HttpResponseMessage GetFiles()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, "hello");
+            return Request.CreateResponse(HttpStatusCode.OK, _fileManager.GetFiles());
         }
         #endregion
-    }
 
-    /// <summary>
-    /// MultipartFormStreamProvider custom pour surcharger le nom du fichier téléchargé
-    /// </summary>
-    class MultipartFormCustomDataStreamProvider : MultipartFormDataStreamProvider
-    {
-        public MultipartFormCustomDataStreamProvider(string savedFilePath)
-            : base(savedFilePath)
-        { }
-
+        #region DeleteFile
         /// <summary>
-        /// Récupérer le nom du fichier téléchargé comme initial
+        /// Supprimer un fichier
         /// </summary>
-        /// <param name="headers"></param>
+        /// <param name="fileName"></param>
         /// <returns></returns>
-        public override string GetLocalFileName(HttpContentHeaders headers)
+        [HttpDelete]
+        public HttpResponseMessage DeleteFile(string fileName)
         {
-            var fileName = !string.IsNullOrWhiteSpace(headers.ContentDisposition.FileName) ? headers.ContentDisposition.FileName : "NoName";
-            return Path.GetFileName(fileName.Replace("\"", string.Empty));
+            if (!_fileManager.IsFileExists(fileName))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, _fileManager.Delete(fileName));
         }
+        #endregion
     }
 }
