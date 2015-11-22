@@ -41,10 +41,10 @@
                  // Extract scss files
                  { test: /\.scss/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader') },
                  // Font loader
-                 { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=100&minetype=application/font-woff" },
-                 { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=100" },
-                 { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=100" },
-                 { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=100" },
+                 { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=100000&minetype=application/font-woff" },
+                 { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=100000" },
+                 { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=100000" },
+                 { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=100000" },
                  { test: /\.png$/, loader: "url-loader?limit=100000" }
                  // file-loader
             ]
