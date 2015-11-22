@@ -4,9 +4,7 @@
   "description": "demo upload file with mvc and angularjs",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "dev": "webpack-dev-server --devtool eval --config config/webpack.config.js --progress --colors --content-base build/"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "mvc",
@@ -16,16 +14,27 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.4.7",
+    "angular-animate": "^1.4.8",
+    "angular-resource": "^1.4.8",
+    "angularjs-toaster": "^0.4.15",
     "babel-core": "^6.1.21",
     "babel-loader": "^6.1.0",
+    "bootstrap": "^3.3.5",
+    "css-loader": "^0.23.0",
+    "exports-loader": "^0.6.2",
     "extract-text-webpack-plugin": "^0.9.1",
     "gulp-livereload": "^3.8.1",
     "gulp-util": "^3.0.7",
+    "imports-loader": "^0.6.5",
     "ng-annotate-loader": "0.0.10",
+    "style-loader": "^0.13.0",
     "webpack": "^1.12.6"
   },
   "devDependencies": {
+    "angular-busy": "^4.1.0",
+    "bower-webpack-plugin": "^0.1.9",
     "gulp": "^3.9.0",
+    "style-loader": "^0.13.0",
     "webpack-dev-server": "^1.12.1"
   }
 }

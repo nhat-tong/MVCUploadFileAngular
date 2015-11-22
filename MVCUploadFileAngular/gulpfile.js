@@ -8,8 +8,6 @@
      livereload = require('gulp-livereload');
 
     var watchPaths = [
-    './gulpfile.js',
-    './webpack.config.js',
     'Scripts/**/*.js',
     'Content/**/*.css',
     'Views/**/*.cshtml'

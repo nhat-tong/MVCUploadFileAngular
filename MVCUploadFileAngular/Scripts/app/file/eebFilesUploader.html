@@ -1,0 +1,18 @@
+﻿<div>
+
+    <form name="addFileForm" role="form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="newPhotos">select and upload new photos</label>
+            <input type="file" id="files" class="uploadFile" accept="*" eeb-files="vm.files" has-files="vm.hasFiles" multiple/>
+        </div>
+
+        <div class="form-group">
+            <ul class="list-inline">
+                <li><strong>files:</strong></li>
+                <li ng-repeat="file in files">{{file.name}}</li>
+            </ul>
+
+            <input class="btn btn-primary" type="button" ng-click="vm.upload()" value="upload">
+        </div>
+    </form>
+</div>
